@@ -1,3 +1,7 @@
+// source code was taken from https://github.com/doedotdev/uc-parallel-computing-project
+// adapted and modified for our use case
+
+
 #include <iostream>
 #include <bits/stdc++.h>
 #include "opencv2/core/core.hpp"
@@ -259,19 +263,16 @@ int main(int argv, char** argc){
 	double *filterIn, *cFilter;
 	int sizeFilter = 5;
 
-	//string ip = "../dat/test_video.mp4";
-	//VideoCapture capture(ip);
-
 	Mat img;	
-	img = imread("../dat/test.png");
+	img = imread("../dat/image_0002_256.jpg");
 
 	namedWindow("Original", WINDOW_NORMAL);
 	resizeWindow("Original", 800, 600);
 	namedWindow("Canny", WINDOW_NORMAL);
 	resizeWindow("Canny", 800, 600);
 
-	while (true)
-	{
+	//while (true)
+	//{
 		//capture.read(img);
 		Mat gray;
 		cvtColor(img, gray, CV_BGR2GRAY);
@@ -312,7 +313,7 @@ int main(int argv, char** argc){
 		cudaMemcpy(cFilter, filterIn, cSizeFilter, cudaMemcpyHostToDevice);
 
 		// Executing kernel 
-		canny <<<1, 256 >>> (cInImg, cFilterImg, cSoberImg, cNonImg, cFinalImg, cAngles, cFilter, sizeFilter, img.rows, img.cols);
+		canny <<<1, 2048>>> (cInImg, cFilterImg, cSoberImg, cNonImg, cFinalImg, cAngles, cFilter, sizeFilter, img.rows, img.cols);
 
 		// Transfer data back to host memory
 		cudaMemcpy(img_filter, cFilterImg, size, cudaMemcpyDeviceToHost);
@@ -350,10 +351,10 @@ int main(int argv, char** argc){
 		imshow("Sober", sobelImage);
 		imshow("NonMax", nonMaxImage);*/
 
-		char c=(char) waitKey(1);
-	    if(c==27)
-	      break;
-	}
+		//char c=(char) waitKey(1);
+	    //if(c==27)
+	      //break;
+	//}
 	
 	// Deallocate host memory
 	free(img_sober);

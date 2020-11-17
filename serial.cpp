@@ -16,58 +16,61 @@ int main( int argc, char** argv ) {
 
   VideoCapture cap("dat/test_video.mp4");
   // Mat cap;
-  // cap = imread("dat/test.png");
+  // cap = cv::imread("dat/image_0002_1024.jpg" ,cv::IMREAD_COLOR);
 
-  if(!cap.isOpened()){
-    cout << "Error opening video" << endl;
-    return -1;
-  }
+  // if(!cap.data){
+  //   cout << "Error opening " << endl;
+  //   return -1;
+  // }
 
   namedWindow("frameCanny", CV_WINDOW_AUTOSIZE);
   namedWindow("frameBlurred", CV_WINDOW_AUTOSIZE);
   namedWindow("frame", CV_WINDOW_AUTOSIZE);
 
-  int frame_width = cap.get(CV_CAP_PROP_FRAME_WIDTH);
-  int frame_height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
-  int ex = static_cast<int>(cap.get(CAP_PROP_FOURCC));
-  int fps = cap.get(CAP_PROP_FPS);
-  Size size = Size(frame_width, frame_height);
-  cout << frame_width << ", "<< frame_height << ", fps:" << fps << endl;
+  // int frame_width = cap.get(CV_CAP_PROP_FRAME_WIDTH);
+  // int frame_height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+  // int ex = static_cast<int>(cap.get(CAP_PROP_FOURCC));
+  // int fps = cap.get(CAP_PROP_FPS);
+  // Size size = Size(frame_width, frame_height);
+  // cout << frame_width << ", "<< frame_height << ", fps:" << fps << endl;
 
-  VideoWriter video("dat/temp.mp4", ex, cap.get(CAP_PROP_FPS),size,false);
+  // VideoWriter video("dat/temp.mp4", ex, cap.get(CAP_PROP_FPS),size,false);
 
   auto start = high_resolution_clock::now();
   
-  while(1){
+  // while(1){
     Mat frame;
     Mat frameGrey;
     Mat frameBlurred;
     Mat frameCanny;
 
-    frame = cap;
-    if(frame.empty()) 
-      break;
+    cap >> frame;
 
     cvtColor(frame, frameGrey, CV_RGB2GRAY);
     GaussianBlur(frameGrey, frameBlurred, Size(5, 5), 0);
     Canny(frameBlurred, frameCanny, 25,100);
 
-    imshow("frameCanny", frameCanny);
-    imshow("frameBlurred", frameBlurred);
-    imshow("frame", frame);
-
     //video.write(frameCanny);
-    char c=(char) waitKey(1);
-    if(c==27)
-      break;
-  }
-  
+    // char c=(char) waitKey(1);
+    // if(c==27)
+    //   break;
+  //}
   auto stop = high_resolution_clock::now(); 
-  auto duration = duration_cast<milliseconds>(stop - start); 
-  cout << "Serial time: " << duration.count() << "ms " << endl;
+
+  imshow("frameCanny", frameCanny);
+  imshow("frameBlurred", frameBlurred);
+  imshow("frame", frame);
+
+  imwrite("dat/out/lane_canny.bmp", frameCanny);
+  imwrite("dat/out/lane_blurred.bmp", frameBlurred);
+  imwrite("dat/out/lane.bmp", frame);
+
+
+  auto duration = duration_cast<microseconds>(stop - start); 
+  cout << "Serial time: " << duration.count() << "us " << endl;
 
   cap.release();
-  video.release();
+  //video.release();
   destroyAllWindows();
 
   // cv::Mat image;

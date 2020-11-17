@@ -14,18 +14,18 @@ using namespace cv;
 
 int main( int argc, char** argv ) {
 
-  VideoCapture cap("dat/test_video.mp4");
-  // Mat cap;
-  // cap = cv::imread("dat/image_0002_1024.jpg" ,cv::IMREAD_COLOR);
+  // VideoCapture cap("dat/test_video.mp4");
+  Mat cap;
+  cap = cv::imread("dat/image_0002_64.jpg" ,cv::IMREAD_COLOR);
 
   // if(!cap.data){
   //   cout << "Error opening " << endl;
   //   return -1;
   // }
 
-  namedWindow("frameCanny", CV_WINDOW_AUTOSIZE);
-  namedWindow("frameBlurred", CV_WINDOW_AUTOSIZE);
-  namedWindow("frame", CV_WINDOW_AUTOSIZE);
+  // namedWindow("frameCanny", CV_WINDOW_AUTOSIZE);
+  // namedWindow("frameBlurred", CV_WINDOW_AUTOSIZE);
+  // namedWindow("frame", CV_WINDOW_AUTOSIZE);
 
   // int frame_width = cap.get(CV_CAP_PROP_FRAME_WIDTH);
   // int frame_height = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
@@ -44,7 +44,7 @@ int main( int argc, char** argv ) {
     Mat frameBlurred;
     Mat frameCanny;
 
-    cap >> frame;
+    frame = cap;
 
     cvtColor(frame, frameGrey, CV_RGB2GRAY);
     GaussianBlur(frameGrey, frameBlurred, Size(5, 5), 0);
@@ -57,13 +57,13 @@ int main( int argc, char** argv ) {
   //}
   auto stop = high_resolution_clock::now(); 
 
-  imshow("frameCanny", frameCanny);
-  imshow("frameBlurred", frameBlurred);
-  imshow("frame", frame);
+  // imshow("frameCanny", frameCanny);
+  // imshow("frameBlurred", frameBlurred);
+  // imshow("frame", frame);
 
-  imwrite("dat/out/lane_canny.bmp", frameCanny);
-  imwrite("dat/out/lane_blurred.bmp", frameBlurred);
-  imwrite("dat/out/lane.bmp", frame);
+  // imwrite("dat/out/lane_canny.bmp", frameCanny);
+  // imwrite("dat/out/lane_blurred.bmp", frameBlurred);
+  // imwrite("dat/out/lane.bmp", frame);
 
 
   auto duration = duration_cast<microseconds>(stop - start); 

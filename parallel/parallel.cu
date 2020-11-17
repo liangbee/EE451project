@@ -264,7 +264,7 @@ int main(int argv, char** argc){
 	int sizeFilter = 5;
 
 	Mat img;	
-	img = imread("../dat/image_0002_256.jpg");
+	img = imread("../dat/image_0002_1024.jpg");
 
 	namedWindow("Original", WINDOW_NORMAL);
 	resizeWindow("Original", 800, 600);

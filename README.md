@@ -1,6 +1,6 @@
 # EE451project
 
-## Compiling and run
+## Compile
 ### serial CPU  
 `make serial` 
 `./bin/serial`

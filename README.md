@@ -1,5 +1,5 @@
 # Parallel implementation of Canny Edge detector 
-CUDA implementation of Canny edge detection algorithm with 
+CUDA implementation of Canny edge detection algorithm
 
 ### Compile and Run
 #### serial CPU  
